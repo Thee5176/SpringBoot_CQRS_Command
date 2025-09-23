@@ -2,6 +2,7 @@ package com.thee5176.ledger_command.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -51,6 +52,7 @@ public class WebSecurityConfig {
 			.csrf((csrf -> csrf.disable()))
 			.authorizeHttpRequests(auth -> 
 				auth.requestMatchers("/api/v1/auth/login","/api/v1/auth/register", "/error").permitAll()
+				.requestMatchers(HttpMethod.OPTIONS).permitAll()
 				.anyRequest().authenticated()
 				)
 			.sessionManagement(session -> session
