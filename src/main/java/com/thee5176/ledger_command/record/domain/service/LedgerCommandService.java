@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.thee5176.ledger_command.record.application.dto.LedgersEntryDTO;
@@ -14,6 +15,7 @@ import com.thee5176.ledger_command.record.domain.model.accounting.tables.pojos.L
 import com.thee5176.ledger_command.record.domain.model.accounting.tables.pojos.Ledgers;
 import com.thee5176.ledger_command.record.infrastructure.repository.LedgerItemsRepository;
 import com.thee5176.ledger_command.record.infrastructure.repository.LedgerRepository;
+import com.thee5176.ledger_command.security.JOOQUsersRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,13 +31,19 @@ public class LedgerCommandService {
 
     private final LedgerItemsMapper ledgerItemsMapper;
 
+    private final JOOQUsersRepository userRepository;
+
     @Transactional
-    public void createLedger(LedgersEntryDTO ledgersEntryDTO) {
+    public void createLedger(LedgersEntryDTO ledgersEntryDTO, String username) {
         final UUID ledgerUuid = UUID.randomUUID();
 
         // 取引作成stream
         Ledgers ledger = ledgerMapper.map(ledgersEntryDTO).setId(ledgerUuid);
-        //TODO : Add ownerId -> get from Security Context;
+        
+        // Note: The OwnerId is set in the service layer.
+        Long ownerId = userRepository.fetchUserByUsername(username).getId();
+        ledger.setOwnerId(ownerId);
+
         ledgerRepository.createLedger(ledger);
         log.debug("Ledger created: {}", ledger);
         
@@ -52,7 +60,14 @@ public class LedgerCommandService {
     }
 
     @Transactional
-    public void updateLedger(LedgersEntryDTO ledgersEntryDTO) {  //LedgerRegistrationDTO LedgerEntryDTO
+    public void updateLedger(LedgersEntryDTO ledgersEntryDTO, String username) {
+        // check if owner owned the transaction
+        Long ownerId = userRepository.fetchUserByUsername(username).getId();
+        if (!ledgerRepository.existsByIdAndOwnerId(ledgersEntryDTO.getId(), ownerId)) {
+            log.warn("User {} attempted to update ledger {} they do not own", username, ledgersEntryDTO.getId());
+            throw new AccessDeniedException("You do not have permission to update this ledger.");
+        }
+        
         List<LedgerItems> existingLedgerItemsList = ledgerItemRepository.getLedgerItemsByLedgerId(ledgersEntryDTO.getId());
         List<LedgerItems> ledgerItemsUpdateList = ledgerItemsMapper.map(ledgersEntryDTO);
         
@@ -95,7 +110,14 @@ public class LedgerCommandService {
     }
 
     @Transactional
-    public void deleteLedger(UUID uuid) {
+    public void deleteLedger(UUID uuid, String username) {
+        // check if owner owned the transaction
+        Long ownerId = userRepository.fetchUserByUsername(username).getId();
+        if (!ledgerRepository.existsByIdAndOwnerId(uuid, ownerId)) {
+            log.warn("User {} attempted to delete ledger {} they do not own", username, uuid);
+            throw new AccessDeniedException("You do not have permission to delete this ledger.");
+        }
+
         // cascade delete apply in DB layer
         ledgerRepository.deleteLedger(uuid);
         log.info("Ledger deleted: {}", uuid);

@@ -41,8 +41,6 @@ public class JOOQUsersRepository {
                 .execute();
     }
 
-
-
     public Users fetchUserByUsername(String username) {
         return dsl.select()
                 .from(Tables.USERS)

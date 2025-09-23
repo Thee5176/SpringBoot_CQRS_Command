@@ -53,7 +53,14 @@ public class LedgerRepository {
             log.error("Error deleting ledger", e);
             throw new JooqOperationException("Failed to delete Ledger");
         }
+    }
 
+    public boolean existsByIdAndOwnerId(UUID uuid, Long ownerId) {
+        Integer count = dslContext.selectCount()
+            .from(Tables.LEDGERS)
+            .where(Tables.LEDGERS.ID.eq(uuid).and(Tables.LEDGERS.OWNER_ID.eq(ownerId)))
+            .fetchOne(0, int.class);
+        return count != null && count > 0;
     }
 
 }
