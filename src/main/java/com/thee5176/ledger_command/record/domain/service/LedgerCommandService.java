@@ -16,6 +16,7 @@ import com.thee5176.ledger_command.record.domain.model.accounting.tables.pojos.L
 import com.thee5176.ledger_command.record.infrastructure.repository.LedgerItemsRepository;
 import com.thee5176.ledger_command.record.infrastructure.repository.LedgerRepository;
 import com.thee5176.ledger_command.security.JOOQUsersRepository;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,10 +35,11 @@ public class LedgerCommandService {
     private final JOOQUsersRepository userRepository;
 
     @Transactional
-    public void createLedger(LedgersEntryDTO ledgersEntryDTO, String username) {
+    public void createLedger(LedgersEntryDTO ledgersEntryDTO, @NotNull String username) {
         final UUID ledgerUuid = UUID.randomUUID();
         
         Long ownerId = userRepository.fetchUserByUsername(username).getId();
+        log.info("Create Ledger owner ID: {}", ownerId);
 
         // 取引作成stream
         Ledgers ledger = ledgerMapper.map(ledgersEntryDTO)
@@ -60,7 +62,7 @@ public class LedgerCommandService {
     }
 
     @Transactional
-    public void updateLedger(LedgersEntryDTO ledgersEntryDTO, String username) {
+    public void updateLedger(LedgersEntryDTO ledgersEntryDTO, @NotNull String username) {
         // check if owner owned the transaction
         Long ownerId = userRepository.fetchUserByUsername(username).getId();
         if (!ledgerRepository.existsByIdAndOwnerId(ledgersEntryDTO.getId(), ownerId)) {
@@ -110,7 +112,7 @@ public class LedgerCommandService {
     }
 
     @Transactional
-    public void deleteLedger(UUID uuid, String username) {
+    public void deleteLedger(UUID uuid, @NotNull String username) {
         // check if owner owned the transaction
         Long ownerId = userRepository.fetchUserByUsername(username).getId();
         if (!ledgerRepository.existsByIdAndOwnerId(uuid, ownerId)) {
@@ -120,6 +122,6 @@ public class LedgerCommandService {
 
         // cascade delete apply in DB layer
         ledgerRepository.deleteLedger(uuid);
-        log.info("Ledger deleted: {}", uuid);
+        log.info("User {} deleted Ledger {}", username, uuid);
     }
 }

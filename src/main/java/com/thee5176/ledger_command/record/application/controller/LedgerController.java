@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.thee5176.ledger_command.record.application.dto.LedgersEntryDTO;
 import com.thee5176.ledger_command.record.application.exception.ValidationException;
 import com.thee5176.ledger_command.record.domain.service.LedgerCommandService;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,7 +29,7 @@ public class LedgerController {
     private final LedgerCommandService ledgerCommandService;
 
     @PostMapping
-    public ResponseEntity<String> newLedger(@NotNull @AuthenticationPrincipal UserDetails userDetails, @RequestBody @Validated LedgersEntryDTO ledgersEntryDTO, BindingResult bindingResult) {
+    public ResponseEntity<String> newLedger(@AuthenticationPrincipal UserDetails userDetails, @RequestBody @Validated LedgersEntryDTO ledgersEntryDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             log.error("Validation errors: {}", bindingResult.getAllErrors());
             throw new ValidationException("Validation failed: " + bindingResult.getAllErrors());
@@ -43,7 +42,7 @@ public class LedgerController {
     }
 
     @PutMapping
-    public ResponseEntity<String> updateLedger(@NotNull @AuthenticationPrincipal UserDetails userDetails, @RequestBody @Validated LedgersEntryDTO ledgersEntryDTO, BindingResult bindingResult) {
+    public ResponseEntity<String> updateLedger(@AuthenticationPrincipal UserDetails userDetails, @RequestBody @Validated LedgersEntryDTO ledgersEntryDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             log.error("Validation errors: {}", bindingResult.getAllErrors());
             throw new ValidationException("Validation failed: " + bindingResult.getAllErrors());
@@ -56,7 +55,7 @@ public class LedgerController {
     }
 
     @DeleteMapping
-    public ResponseEntity<String> deleteLedger(@NotNull @AuthenticationPrincipal UserDetails userDetails, @RequestParam UUID uuid) {
+    public ResponseEntity<String> deleteLedger(@AuthenticationPrincipal UserDetails userDetails, @RequestParam UUID uuid) {
         ledgerCommandService.deleteLedger(uuid, userDetails.getUsername());
         log.debug("Ledger deleted: {}", uuid);
 
