@@ -36,13 +36,13 @@ public class LedgerCommandService {
     @Transactional
     public void createLedger(LedgersEntryDTO ledgersEntryDTO, String username) {
         final UUID ledgerUuid = UUID.randomUUID();
+        
+        Long ownerId = userRepository.fetchUserByUsername(username).getId();
 
         // 取引作成stream
-        Ledgers ledger = ledgerMapper.map(ledgersEntryDTO).setId(ledgerUuid);
-        
-        // Note: The OwnerId is set in the service layer.
-        Long ownerId = userRepository.fetchUserByUsername(username).getId();
-        ledger.setOwnerId(ownerId);
+        Ledgers ledger = ledgerMapper.map(ledgersEntryDTO)
+                                        .setId(ledgerUuid)
+                                        .setOwnerId(ownerId);
 
         ledgerRepository.createLedger(ledger);
         log.debug("Ledger created: {}", ledger);
