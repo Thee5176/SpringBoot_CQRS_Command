@@ -19,8 +19,8 @@ public class LedgerRepository {
     //Create - https://www.jooq.org/doc/latest/manual/sql-building/sql-statements/insert-statement/insert-values/#insert-values-with-a-single-row
     public void createLedger(Ledgers ledgers) {
         try {
-            dslContext.insertInto(Tables.LEDGERS, Tables.LEDGERS.ID, Tables.LEDGERS.DATE, Tables.LEDGERS.DESCRIPTION,Tables.LEDGERS.CREATED_AT, Tables.LEDGERS.UPDATED_AT)
-                .values(ledgers.getId(), ledgers.getDate(), ledgers.getDescription(), ledgers.getCreatedAt(), ledgers.getUpdatedAt())
+            dslContext.insertInto(Tables.LEDGERS, Tables.LEDGERS.ID, Tables.LEDGERS.DATE, Tables.LEDGERS.DESCRIPTION,Tables.LEDGERS.CREATED_AT, Tables.LEDGERS.UPDATED_AT, Tables.LEDGERS.OWNER_ID)
+                .values(ledgers.getId(), ledgers.getDate(), ledgers.getDescription(), ledgers.getCreatedAt(), ledgers.getUpdatedAt(), ledgers.getOwnerId())
                     .execute();
         } catch (Exception e) {
             log.error("Error creating ledger", e);
