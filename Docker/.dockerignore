@@ -1,0 +1,13 @@
+target/
+build/
+.gradle/
+.idea/
+.vscode/
+.git/
+.gitignore
+*.log
+*.iml
+src/test/
+pom.xml.tag
+pom.xml.versionsBackup
+pom.xml.releaseBackup

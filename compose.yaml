@@ -1,21 +1,11 @@
 services:
+
   test_command_service:
     build: .
     container_name: test_command_service
-    environment:
-      - "SPRING_DATASOURCE_URL=jdbc:postgresql://test_command_postgres:5432/record"
-      - "SPRING_DATASOURCE_USERNAME=springboot_admin"
-      - "SPRING_DATASOURCE_PASSWORD=password"
-      - "SERVER_PORT=8081"
+    env_file:
+      - ./env.properties
     ports:
-      - "8183:8081"
+      - "8186:8080"
 
-  test_command_postgres:
-    image: "postgres:latest"
-    container_name: test_command_postgres
-    environment:
-      - "POSTGRES_DB=record"
-      - "POSTGRES_USER=springboot_admin"
-      - "POSTGRES_PASSWORD=password"
-    ports:
-      - "5999:5432"
+# docker run --name test_local_db -e POSTGRES_PASSWORD=V1tIOv82s2ke9 -p 5433:5432 -d postgres

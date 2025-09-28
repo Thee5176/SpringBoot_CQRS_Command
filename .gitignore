@@ -33,3 +33,7 @@ build/
 .vscode/
 
 /logs/
+/SpringBoot_CQRS_Command/
+
+.env*
+env.properties

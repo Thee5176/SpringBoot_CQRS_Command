@@ -1,15 +1,15 @@
-INSERT INTO "code_of_account" ("code", "title", "level", "element", "type") VALUES
+INSERT INTO accounting.code_of_account ("code", "title", "level", "element", "type") VALUES
 -- 収益 (Revenue)
     (4101, '売上', 1, 'Revenue', 'Credit'),
     (4201, '雑収入', 1, 'Revenue', 'Credit'),
 
 -- 費用 (Expenses)
--- 売上原価
+-- 売上原価 : 決算書に一括計算されるため、補助科目として設定
     (5101, '期首商品棚卸高', 1, 'Expenses', 'Debit'),
     (5102, '仕入', 1, 'Expenses', 'Debit'),
     (5103, '期末商品棚卸高', 1, 'Expenses', 'Debit'),
 
--- 販売費及び一般管理費
+-- 営業費用及び一般管理費
     (5201, '給料賃金', 1, 'Expenses', 'Debit'),
     (5202, '外注工賃', 1, 'Expenses', 'Debit'),
     (5203, '減価償却費', 1, 'Expenses', 'Debit'),
