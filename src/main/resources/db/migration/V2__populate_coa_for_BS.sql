@@ -1,4 +1,4 @@
-INSERT INTO "code_of_account" ("code", "title", "level", "element", "type") VALUES
+INSERT INTO accounting.code_of_account ("code", "title", "level", "element", "type") VALUES
 -- 資産 (Assets) - Debit
 (1101, '現金', 1, 'Assets', 'Debit'),
 (1102, '普通預金', 1, 'Assets', 'Debit'),
