@@ -1,0 +1,11 @@
+services:
+
+  test_command_service:
+    build: .
+    container_name: test_command_service
+    env_file:
+      - ./env.properties
+    ports:
+      - "8186:8080"
+
+# docker run --name test_local_db -e POSTGRES_PASSWORD=V1tIOv82s2ke9 -p 5433:5432 -d postgres

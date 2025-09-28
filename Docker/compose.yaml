@@ -1,0 +1,14 @@
+services:
+  development_command_service:
+    build: .
+    develop:
+      watch:
+      - path: ./src/**
+        target: ./src
+        action: sync
+      - path: ./pom.xml
+        action: restart
+    env_file:
+      - ../env.properties
+    ports:
+      - "8186:8081"

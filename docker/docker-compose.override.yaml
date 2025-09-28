@@ -1,5 +1,0 @@
-services:
-  test_command_service:
-    container_name: test_command_service
-    env_file:
-      - ../env.properties
