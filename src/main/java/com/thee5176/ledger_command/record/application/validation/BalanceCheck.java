@@ -15,7 +15,7 @@ import jakarta.validation.ReportAsSingleViolation;
 @Retention(RetentionPolicy.RUNTIME)
 @ReportAsSingleViolation
 public @interface BalanceCheck {
-	String message() default "検証エラー:借方と貸方の金額が一致していない。";
+	String message() default "Transaction Balance must be zero";
 	
 	Class<?>[] groups() default {};
 	
