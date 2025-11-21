@@ -1,5 +1,5 @@
 
-FROM openjdk:21-jdk-slim
+FROM eclipse-temurin:21-jre-alpine
 VOLUME /tmp
 EXPOSE 8080
 ARG JAR_FILE=./target/*-exec.jar
