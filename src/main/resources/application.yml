@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: springboot_cqrs_command
+  config:
+    import: optional:file:env.properties
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    hikari:
+      minimum-idle: 0
+      maximum-pool-size: 20
+      connection-timeout: 30000
+      idle-timeout: 300000
+      max-lifetime: 1800000
+      leak-detection-threshold: 2000
+  flyway:
+    enabled: true
+    baseline-version: 1
+    baseline-on-migrate: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${VITE_OKTA_ISSUER_URL}
+  profiles:
+    active: [dev, prod]
+
+okta:
+  oauth2:
+    issuer: ${VITE_OKTA_ISSUER_URL}
+    client-id: ${VITE_OKTA_CLIENT_ID}
+    client-secret: ${VITE_OKTA_CLIENT_SECRET}
+
+logging:
+  structured:
+    format:
+      file: ecs
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: 3600000
+
+server:
+  port: 8080

@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.thee5176.ledger_command</groupId>
 	<artifactId>ledger_command</artifactId>
-	<version>1.1.0-SNAPSHOT</version>
+	<version>1.2.0-SNAPSHOT</version>
 	<name>ledger_command</name>
 	<description>CQRS command service for Double Accounting System</description>
 	<url/>
