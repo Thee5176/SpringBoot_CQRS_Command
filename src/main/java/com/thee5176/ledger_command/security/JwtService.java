@@ -15,6 +15,7 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
 @Service
+@Deprecated(since = "1.2.0", forRemoval = true)
 public class JwtService {
     @Value("${jwt.secret:}")
     private String secretKey;

@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @Slf4j
 @AllArgsConstructor
+@Deprecated(since = "1.2.0", forRemoval = true)
 @RequestMapping("/api/v1/auth")
 public class AuthenticationController {
 	private final AuthenticationService authenticationService;

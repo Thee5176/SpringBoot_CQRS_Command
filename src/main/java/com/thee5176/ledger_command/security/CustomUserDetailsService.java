@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Deprecated(since = "1.2.0", forRemoval = true)
 public class CustomUserDetailsService implements UserDetailsService {
     private final JOOQUsersRepository usersRepository;
     private final JOOQAuthoritiesRepository authoritiesRepository;

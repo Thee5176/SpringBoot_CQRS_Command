@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Deprecated(since = "1.2.0", forRemoval = true)
 public class AuthenticationResponse {
     private String token;
 }

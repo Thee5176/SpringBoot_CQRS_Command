@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 
 @Repository
 @AllArgsConstructor
+@Deprecated(since = "1.2.0", forRemoval = true)
 public class JOOQUsersRepository {
     private final DSLContext dsl;
 

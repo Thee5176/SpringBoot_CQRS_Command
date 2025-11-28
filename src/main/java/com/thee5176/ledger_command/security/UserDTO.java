@@ -9,6 +9,7 @@ import lombok.Data;
 
 @Data
 @Builder
+@Deprecated(since = "1.2.0", forRemoval = true)
 public class UserDTO implements UserDetails {
     private String username;
     private String password;

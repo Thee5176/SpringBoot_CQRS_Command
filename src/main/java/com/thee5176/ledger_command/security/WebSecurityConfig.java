@@ -16,36 +16,50 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * This class contains a method that is no longer recommended for use.
+ *
+ * @deprecated As of version 1.2, this method is superseded by {@link #newMethod()}.
+ *             The reason for deprecation is improved performance and clarity in the new approach.
+ */
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@Deprecated(since = "1.2.0", forRemoval = true)
 public class WebSecurityConfig {
+
 	private final CustomUserDetailsService userDetailsService;
 	private final JOOQUsersRepository usersRepository;
 	private final JOOQAuthoritiesRepository authoritiesRepository;
 
     @Bean
+	@Deprecated(since = "1.2.0", forRemoval = true)
 	public PasswordEncoder encoder() {
 		return new BCryptPasswordEncoder(12);
 	}
 
-	@Bean DaoAuthenticationProvider daoAuthenticationProvider() {
+	@Bean
+	@Deprecated(since = "1.2.0", forRemoval = true)
+	DaoAuthenticationProvider daoAuthenticationProvider() {
 		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService);
 		authProvider.setPasswordEncoder(encoder());
 		return authProvider;
 	}
 
 	@Bean
+	@Deprecated(since = "1.2.0", forRemoval = true)
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
 		return authConfig.getAuthenticationManager();
 	}
 
 	@Bean
+	@Deprecated(since = "1.2.0", forRemoval = true)
 	public JwtAuthenticationFilter jwtAuthenticationFilter(JwtService jwtService, UserDetailsService userDetailsService) {
 		return new JwtAuthenticationFilter(jwtService, userDetailsService);
 	}
 
 	@Bean
+	@Deprecated(since = "1.2.0", forRemoval = true)
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
 		// Allow request path unauthenticated access and disable CSRF for simplicity
 		http
@@ -64,6 +78,7 @@ public class WebSecurityConfig {
 	}
 
 	@Bean
+	@Deprecated(since = "1.2.0", forRemoval = true)
 	public UserDetailsService userDetailsService() {
 		return new CustomUserDetailsService(usersRepository, authoritiesRepository);
 	}
