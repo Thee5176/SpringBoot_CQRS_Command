@@ -4,12 +4,14 @@
 package com.thee5176.ledger_command.record.domain.model.accounting.tables.records;
 
 
-import java.time.LocalDateTime;
-import java.util.UUID;
-import org.jooq.Record1;
-import org.jooq.impl.UpdatableRecordImpl;
 import com.thee5176.ledger_command.record.domain.model.accounting.enums.BalanceType;
 import com.thee5176.ledger_command.record.domain.model.accounting.tables.LedgerItems;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+import org.jooq.Record1;
+import org.jooq.impl.UpdatableRecordImpl;
 
 
 /**

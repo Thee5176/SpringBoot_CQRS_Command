@@ -28,7 +28,7 @@ public class LedgersTest {
         String description = "Test transaction";
         LocalDateTime createdAt = LocalDateTime.now();
         LocalDateTime updatedAt = LocalDateTime.now();
-        Long ownerId = 1L;
+        String ownerId = "owner-123";
 
         Ledgers transactions = new Ledgers(id, date, description, createdAt, updatedAt, ownerId);
 
@@ -47,7 +47,7 @@ public class LedgersTest {
         String description = "Copy test";
         LocalDateTime createdAt = LocalDateTime.now();
         LocalDateTime updatedAt = LocalDateTime.now();
-        Long ownerId = 1L;
+        String ownerId = "owner-123";
 
         Ledgers original = new Ledgers(id, date, description, createdAt, updatedAt, ownerId);
         Ledgers copy = new Ledgers(original);
@@ -88,7 +88,7 @@ public class LedgersTest {
         String description = "Equals test";
         LocalDateTime createdAt = LocalDateTime.now();
         LocalDateTime updatedAt = LocalDateTime.now();
-        Long ownerId = 1L;
+        String ownerId = "owner-123";
 
         Ledgers t1 = new Ledgers(id, date, description, createdAt, updatedAt, ownerId);
         Ledgers t2 = new Ledgers(id, date, description, createdAt, updatedAt, ownerId);
@@ -107,7 +107,7 @@ public class LedgersTest {
         String description = "ToString test";
         LocalDateTime createdAt = LocalDateTime.of(2024, 6, 1, 12, 0);
         LocalDateTime updatedAt = LocalDateTime.of(2024, 6, 2, 13, 0);
-        Long ownerId = 1L;
+        String ownerId = "owner-123";
 
         Ledgers transactions = new Ledgers(id, date, description, createdAt, updatedAt, ownerId);
         String str = transactions.toString();
@@ -125,7 +125,7 @@ public class LedgersTest {
         String description = "Sample transaction";
         LocalDateTime createdAt = LocalDateTime.of(2024, 6, 1, 10, 0);
         LocalDateTime updatedAt = LocalDateTime.of(2024, 6, 2, 11, 0);
-        Long ownerId = 1L;
+        String ownerId = "owner-123";
 
         return new Ledgers(id, date, description, createdAt, updatedAt, ownerId);
     }

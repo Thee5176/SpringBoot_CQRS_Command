@@ -3,7 +3,7 @@ package com.thee5176.ledger_command.record.application.controller;
 import java.util.UUID;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,34 +29,33 @@ public class LedgerController {
     private final LedgerCommandService ledgerCommandService;
 
     @PostMapping
-    public ResponseEntity<String> newLedger(@AuthenticationPrincipal UserDetails userDetails, @RequestBody @Validated LedgersEntryDTO ledgersEntryDTO, BindingResult bindingResult) {
+    public ResponseEntity<String> newLedger(@AuthenticationPrincipal Jwt jwt, @RequestBody @Validated LedgersEntryDTO ledgersEntryDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             log.error("Validation errors: {}", bindingResult.getAllErrors());
             throw new ValidationException("Validation failed: " + bindingResult.getAllErrors());
         }
 
-        ledgerCommandService.createLedger(ledgersEntryDTO, userDetails.getUsername());
-        log.debug("New ledger created: {}", ledgersEntryDTO, userDetails.getUsername());
-
+        ledgerCommandService.createLedger(ledgersEntryDTO, jwt.getClaim("sub"));
+        log.debug("New ledger created: {}", ledgersEntryDTO, jwt.getClaim("sub"));
         return ResponseEntity.ok("Successfully created new ledger");
     }
 
     @PutMapping
-    public ResponseEntity<String> updateLedger(@AuthenticationPrincipal UserDetails userDetails, @RequestBody @Validated LedgersEntryDTO ledgersEntryDTO, BindingResult bindingResult) {
+    public ResponseEntity<String> updateLedger(@AuthenticationPrincipal Jwt jwt, @RequestBody @Validated LedgersEntryDTO ledgersEntryDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             log.error("Validation errors: {}", bindingResult.getAllErrors());
             throw new ValidationException("Validation failed: " + bindingResult.getAllErrors());
         }
         
-        ledgerCommandService.updateLedger(ledgersEntryDTO, userDetails.getUsername());
+        ledgerCommandService.updateLedger(ledgersEntryDTO, jwt.getClaim("sub"));
         log.debug("Ledger updated: {}", ledgersEntryDTO);
 
         return ResponseEntity.ok("Successfully updated ledger");
     }
 
     @DeleteMapping
-    public ResponseEntity<String> deleteLedger(@AuthenticationPrincipal UserDetails userDetails, @RequestParam UUID uuid) {
-        ledgerCommandService.deleteLedger(uuid, userDetails.getUsername());
+    public ResponseEntity<String> deleteLedger(@AuthenticationPrincipal Jwt jwt, @RequestParam UUID uuid) {
+        ledgerCommandService.deleteLedger(uuid, jwt.getClaim("sub"));
         log.debug("Ledger deleted: {}", uuid);
 
         return ResponseEntity.ok("Successfully deleted ledger");

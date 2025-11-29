@@ -10,8 +10,6 @@ import com.thee5176.ledger_command.record.domain.model.accounting.tables.Ledgers
 import com.thee5176.ledger_command.record.domain.model.accounting.tables.records.CodeOfAccountRecord;
 import com.thee5176.ledger_command.record.domain.model.accounting.tables.records.LedgerItemsRecord;
 import com.thee5176.ledger_command.record.domain.model.accounting.tables.records.LedgersRecord;
-import com.thee5176.ledger_command.record.domain.model.credential.tables.Users;
-import com.thee5176.ledger_command.record.domain.model.credential.tables.records.UsersRecord;
 
 import org.jooq.ForeignKey;
 import org.jooq.TableField;
@@ -43,5 +41,4 @@ public class Keys {
 
     public static final ForeignKey<LedgerItemsRecord, CodeOfAccountRecord> LEDGER_ITEMS__ENTRIES_COA_FKEY = Internal.createForeignKey(LedgerItems.LEDGER_ITEMS, DSL.name("entries_coa_fkey"), new TableField[] { LedgerItems.LEDGER_ITEMS.COA }, Keys.CODE_OF_ACCOUNT_PKEY, new TableField[] { CodeOfAccount.CODE_OF_ACCOUNT.CODE }, true, ForeignKeyRule.SET_NULL, ForeignKeyRule.NO_ACTION);
     public static final ForeignKey<LedgerItemsRecord, LedgersRecord> LEDGER_ITEMS__ENTRIES_TRANSACTION_ID_FKEY = Internal.createForeignKey(LedgerItems.LEDGER_ITEMS, DSL.name("entries_transaction_id_fkey"), new TableField[] { LedgerItems.LEDGER_ITEMS.LEDGER_ID }, Keys.TRANSACTIONS_PKEY, new TableField[] { Ledgers.LEDGERS.ID }, true, ForeignKeyRule.CASCADE, ForeignKeyRule.NO_ACTION);
-    public static final ForeignKey<LedgersRecord, UsersRecord> LEDGERS__LEDGER_ITEMS_USER_FKEY = Internal.createForeignKey(Ledgers.LEDGERS, DSL.name("ledger_items_user_fkey"), new TableField[] { Ledgers.LEDGERS.OWNER_ID }, com.thee5176.ledger_command.record.domain.model.credential.Keys.USERS_PKEY, new TableField[] { Users.USERS.ID }, true, ForeignKeyRule.SET_NULL, ForeignKeyRule.NO_ACTION);
 }

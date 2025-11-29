@@ -4,11 +4,12 @@
 package com.thee5176.ledger_command.record.domain.model.accounting.tables.records;
 
 
-import org.jooq.Record1;
-import org.jooq.impl.UpdatableRecordImpl;
 import com.thee5176.ledger_command.record.domain.model.accounting.enums.BalanceType;
 import com.thee5176.ledger_command.record.domain.model.accounting.enums.Element;
 import com.thee5176.ledger_command.record.domain.model.accounting.tables.CodeOfAccount;
+
+import org.jooq.Record1;
+import org.jooq.impl.UpdatableRecordImpl;
 
 
 /**

@@ -23,7 +23,7 @@ public class Ledgers implements Serializable {
     private String description;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private Long ownerId;
+    private String ownerId;
 
     public Ledgers() {}
 
@@ -42,7 +42,7 @@ public class Ledgers implements Serializable {
         String description,
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
-        Long ownerId
+        String ownerId
     ) {
         this.id = id;
         this.date = date;
@@ -130,14 +130,14 @@ public class Ledgers implements Serializable {
     /**
      * Getter for <code>accounting.ledgers.owner_id</code>.
      */
-    public Long getOwnerId() {
+    public String getOwnerId() {
         return this.ownerId;
     }
 
     /**
      * Setter for <code>accounting.ledgers.owner_id</code>.
      */
-    public Ledgers setOwnerId(Long ownerId) {
+    public Ledgers setOwnerId(String ownerId) {
         this.ownerId = ownerId;
         return this;
     }

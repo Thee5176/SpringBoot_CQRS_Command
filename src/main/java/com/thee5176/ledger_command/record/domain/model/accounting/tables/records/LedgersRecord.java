@@ -100,7 +100,7 @@ public class LedgersRecord extends UpdatableRecordImpl<LedgersRecord> {
     /**
      * Setter for <code>accounting.ledgers.owner_id</code>.
      */
-    public LedgersRecord setOwnerId(Long value) {
+    public LedgersRecord setOwnerId(String value) {
         set(5, value);
         return this;
     }
@@ -108,8 +108,8 @@ public class LedgersRecord extends UpdatableRecordImpl<LedgersRecord> {
     /**
      * Getter for <code>accounting.ledgers.owner_id</code>.
      */
-    public Long getOwnerId() {
-        return (Long) get(5);
+    public String getOwnerId() {
+        return (String) get(5);
     }
 
     // -------------------------------------------------------------------------
@@ -135,7 +135,7 @@ public class LedgersRecord extends UpdatableRecordImpl<LedgersRecord> {
     /**
      * Create a detached, initialised LedgersRecord
      */
-    public LedgersRecord(UUID id, LocalDate date, String description, LocalDateTime createdAt, LocalDateTime updatedAt, Long ownerId) {
+    public LedgersRecord(UUID id, LocalDate date, String description, LocalDateTime createdAt, LocalDateTime updatedAt, String ownerId) {
         super(Ledgers.LEDGERS);
 
         setId(id);

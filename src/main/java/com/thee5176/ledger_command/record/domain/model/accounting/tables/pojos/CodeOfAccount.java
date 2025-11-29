@@ -4,9 +4,10 @@
 package com.thee5176.ledger_command.record.domain.model.accounting.tables.pojos;
 
 
-import java.io.Serializable;
 import com.thee5176.ledger_command.record.domain.model.accounting.enums.BalanceType;
 import com.thee5176.ledger_command.record.domain.model.accounting.enums.Element;
+
+import java.io.Serializable;
 
 
 /**

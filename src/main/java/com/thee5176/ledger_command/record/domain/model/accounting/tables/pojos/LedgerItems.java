@@ -4,10 +4,11 @@
 package com.thee5176.ledger_command.record.domain.model.accounting.tables.pojos;
 
 
+import com.thee5176.ledger_command.record.domain.model.accounting.enums.BalanceType;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
-import com.thee5176.ledger_command.record.domain.model.accounting.enums.BalanceType;
 
 
 /**
