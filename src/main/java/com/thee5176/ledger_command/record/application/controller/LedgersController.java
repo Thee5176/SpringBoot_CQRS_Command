@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequestMapping("/ledger")
 @AllArgsConstructor
-public class LedgerController {
+public class LedgersController {
     private final LedgerCommandService ledgerCommandService;
 
     @PostMapping

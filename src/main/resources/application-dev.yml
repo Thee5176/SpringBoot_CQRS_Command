@@ -14,7 +14,7 @@ logging:
           record:
             application:
               controller:
-                LedgerController: DEBUG
+                LedgersController: DEBUG
             domain:
               service:
                 LedgerCommandService: DEBUG

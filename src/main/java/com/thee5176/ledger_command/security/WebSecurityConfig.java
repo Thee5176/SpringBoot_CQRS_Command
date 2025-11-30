@@ -25,9 +25,8 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/", "/health").permitAll()
-                .anyRequest().authenticated()
-            );
+            .requestMatchers("/", "/health").permitAll()
+            .anyRequest().authenticated());
 
         http.logout(logout -> logout.logoutRequestMatcher(PathPatternRequestMatcher.withDefaults().matcher("/logout"))
             .addLogoutHandler(oidclogoutHandler()));
