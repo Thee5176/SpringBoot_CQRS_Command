@@ -14,8 +14,6 @@ import com.thee5176.ledger_command.record.infrastructure.repository.LedgerItemsR
 import lombok.AllArgsConstructor;
 
 
-
-
 @RestController
 @RequestMapping("/ledger_items")
 @AllArgsConstructor

@@ -33,7 +33,8 @@ public class WebSecurityConfig {
     
         http.oauth2Login(withDefaults());
 
-        http.oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer
+        // audience validation is handled by Default OAuth2TokenValidators
+        http.oauth2ResourceServer(oauth2 -> oauth2
             .jwt(withDefaults()));
 
         return http.build();
