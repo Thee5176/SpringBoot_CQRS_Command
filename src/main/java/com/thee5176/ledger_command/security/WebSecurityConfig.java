@@ -11,6 +11,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 import lombok.RequiredArgsConstructor;
 @Configuration
 @EnableWebSecurity
@@ -43,8 +44,21 @@ public class WebSecurityConfig {
     private LogoutHandler oidclogoutHandler() {
         return (request, response, authentication) -> {
             try {
-                String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
-                response.sendRedirect(issuer + "v2/logout?client_id=" + clientId + "&returnTo=" + baseUrl);
+                String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .build()
+                    .toUriString();
+
+                String issuerBase = issuer.endsWith("/") ? issuer : issuer + "/";
+
+                String logoutUrl = UriComponentsBuilder
+                    .fromHttpUrl(issuerBase)
+                    .path("v2/logout")
+                    .queryParam("client_id", clientId)
+                    .queryParam("returnTo", baseUrl)
+                    .build()
+                    .toUriString();
+
+                response.sendRedirect(logoutUrl);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

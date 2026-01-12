@@ -8,10 +8,13 @@ import com.thee5176.ledger_command.record.domain.model.accounting.Accounting;
 import com.thee5176.ledger_command.record.domain.model.accounting.Keys;
 import com.thee5176.ledger_command.record.domain.model.accounting.tables.LedgerItems.LedgerItemsPath;
 import com.thee5176.ledger_command.record.domain.model.accounting.tables.records.LedgersRecord;
+import com.thee5176.ledger_command.record.domain.model.credential.tables.Users.UsersPath;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 import org.jooq.Condition;
@@ -85,7 +88,7 @@ public class Ledgers extends TableImpl<LedgersRecord> {
     /**
      * The column <code>accounting.ledgers.owner_id</code>.
      */
-    public final TableField<LedgersRecord, String> OWNER_ID = createField(DSL.name("owner_id"), SQLDataType.VARCHAR(255).nullable(false), this, "");
+    public final TableField<LedgersRecord, String> OWNER_ID = createField(DSL.name("owner_id"), SQLDataType.VARCHAR.nullable(false), this, "");
 
     private Ledgers(Name alias, Table<LedgersRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);
@@ -157,6 +160,23 @@ public class Ledgers extends TableImpl<LedgersRecord> {
     @Override
     public UniqueKey<LedgersRecord> getPrimaryKey() {
         return Keys.TRANSACTIONS_PKEY;
+    }
+
+    @Override
+    public List<ForeignKey<LedgersRecord, ?>> getReferences() {
+        return Arrays.asList(Keys.LEDGERS__LEDGER_ITEMS_USER_FKEY);
+    }
+
+    private transient UsersPath _users;
+
+    /**
+     * Get the implicit join path to the <code>credential.users</code> table.
+     */
+    public UsersPath users() {
+        if (_users == null)
+            _users = new UsersPath(this, Keys.LEDGERS__LEDGER_ITEMS_USER_FKEY, null);
+
+        return _users;
     }
 
     private transient LedgerItemsPath _ledgerItems;
