@@ -31,6 +31,8 @@ okta:
     issuer: https://${AUTH0_DOMAIN}/
     client-id: ${AUTH0_CLIENT_ID}
     client-secret: ${AUTH0_CLIENT_SECRET}
+    audience: ${AUTH0_AUDIENCE}
+
 
 logging:
   structured:
