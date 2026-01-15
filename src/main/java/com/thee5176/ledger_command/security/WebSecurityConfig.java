@@ -34,16 +34,19 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(authorize -> authorize
-            .requestMatchers("/", "/health").permitAll()
-            .anyRequest().authenticated());
+        // Disable CSRF for stateless JWT authentication
+        http.csrf(csrf -> csrf.disable())
 
-        http.logout(logout -> logout.logoutRequestMatcher(PathPatternRequestMatcher.withDefaults().matcher("/logout"))
-            .addLogoutHandler(oidclogoutHandler()));
-    
-        http.oauth2Login(withDefaults());
+            .authorizeHttpRequests(authorize -> authorize
+                .requestMatchers("/", "/health").permitAll()
+                .anyRequest().authenticated())
 
-        http.oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults()));
+            .logout(logout -> logout.logoutRequestMatcher(PathPatternRequestMatcher.withDefaults().matcher("/logout"))
+                .addLogoutHandler(oidclogoutHandler()))
+        
+            .oauth2Login(withDefaults())
+
+            .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults()));
 
         return http.build();
     }
