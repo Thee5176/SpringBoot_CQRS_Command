@@ -2,7 +2,6 @@ package com.thee5176.ledger_command.record.domain.service;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -14,14 +13,12 @@ import com.thee5176.ledger_command.record.application.dto.LedgersEntryDTO;
 import com.thee5176.ledger_command.record.application.dto.LedgersEntryDTOTest;
 import com.thee5176.ledger_command.record.application.mapper.LedgerItemsMapper;
 import com.thee5176.ledger_command.record.application.mapper.LedgerMapper;
-import com.thee5176.ledger_command.record.domain.model.accounting.tables.pojos.LedgerItems;
 import com.thee5176.ledger_command.record.domain.model.accounting.tables.pojos.LedgerItemsTest;
-import com.thee5176.ledger_command.record.domain.model.accounting.tables.pojos.Ledgers;
 import com.thee5176.ledger_command.record.domain.model.accounting.tables.pojos.LedgersTest;
-import com.thee5176.ledger_command.record.domain.model.credential.tables.pojos.Users;
+import com.thee5176.ledger_command.record.domain.model.tables.pojos.LedgerItems;
+import com.thee5176.ledger_command.record.domain.model.tables.pojos.Ledgers;
 import com.thee5176.ledger_command.record.infrastructure.repository.LedgerItemsRepository;
 import com.thee5176.ledger_command.record.infrastructure.repository.LedgerRepository;
-import com.thee5176.ledger_command.security.JOOQUsersRepository;
 
 class LedgerCommandServiceTest {
 
@@ -30,8 +27,6 @@ class LedgerCommandServiceTest {
     private LedgerMapper ledgerMapper;
     private LedgerItemsMapper ledgerItemsMapper;
     private LedgerCommandService recordCommandService;
-    private JOOQUsersRepository userRepository;
-    private Users user;
 
     @BeforeEach
     void setUp() {
@@ -39,11 +34,8 @@ class LedgerCommandServiceTest {
         ledgerItemsRepository = mock(LedgerItemsRepository.class);
         ledgerMapper = mock(LedgerMapper.class);
         ledgerItemsMapper = mock(LedgerItemsMapper.class);
-        userRepository = mock(JOOQUsersRepository.class);
-        user = new Users();
-        user.setId(1L);
         recordCommandService = new LedgerCommandService(
-            ledgerRepository, ledgerItemsRepository, ledgerMapper, ledgerItemsMapper, userRepository
+            ledgerRepository, ledgerItemsRepository, ledgerMapper, ledgerItemsMapper
         );
     }
 
@@ -62,7 +54,6 @@ class LedgerCommandServiceTest {
         // mock repository methods
         doNothing().when(ledgerRepository).createLedger(any(Ledgers.class));
         doNothing().when(ledgerItemsRepository).createLedgerItems(any(LedgerItems.class));
-    doReturn(user).when(userRepository).fetchUserByUsername(any(String.class));
 
         recordCommandService.createLedger(dto, "testuser");
 
@@ -88,7 +79,6 @@ class LedgerCommandServiceTest {
         when(ledgerMapper.map(dto)).thenReturn(ledger);
         when(ledgerItemsMapper.map(dto)).thenReturn(Arrays.asList(ledgerItems1, ledgerItems2));
         doNothing().when(ledgerRepository).createLedger(any(Ledgers.class));
-    doReturn(user).when(userRepository).fetchUserByUsername(any(String.class));
 
         recordCommandService.createLedger(dto, "testuser");
 
@@ -110,7 +100,6 @@ class LedgerCommandServiceTest {
         // Simulate repository failure
         doNothing().when(ledgerRepository).createLedger(any(Ledgers.class));
         doNothing().when(ledgerItemsRepository).createLedgerItems(any(LedgerItems.class));
-    doReturn(user).when(userRepository).fetchUserByUsername(any(String.class));
 
         // Should not throw, as createLedger does not catch exceptions
         recordCommandService.createLedger(dto, "testuser");
@@ -135,7 +124,6 @@ class LedgerCommandServiceTest {
         when(ledgerItemsMapper.map(dto)).thenReturn(Arrays.asList(ledgerItems1, ledgerItems2));
         doNothing().when(ledgerRepository).createLedger(any(Ledgers.class));
         doNothing().when(ledgerItemsRepository).createLedgerItems(any(LedgerItems.class));
-    doReturn(user).when(userRepository).fetchUserByUsername(any(String.class));
 
 
         recordCommandService.createLedger(dto, "testuser");

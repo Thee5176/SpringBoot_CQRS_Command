@@ -5,8 +5,8 @@ import java.util.UUID;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
 import com.thee5176.ledger_command.record.application.exception.JooqOperationException;
-import com.thee5176.ledger_command.record.domain.model.accounting.Tables;
-import com.thee5176.ledger_command.record.domain.model.accounting.tables.pojos.LedgerItems;
+import com.thee5176.ledger_command.record.domain.model.Tables;
+import com.thee5176.ledger_command.record.domain.model.tables.pojos.LedgerItems;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

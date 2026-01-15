@@ -1,0 +1,11 @@
+spring:
+  main:
+    log-startup-info: false
+
+logging:
+  level:
+    root: ERROR
+    org:
+      springframework: ERROR
+  file:
+    name: logs/prod-logs.json

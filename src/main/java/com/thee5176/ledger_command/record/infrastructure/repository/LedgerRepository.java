@@ -4,8 +4,8 @@ import java.util.UUID;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
 import com.thee5176.ledger_command.record.application.exception.JooqOperationException;
-import com.thee5176.ledger_command.record.domain.model.accounting.Tables;
-import com.thee5176.ledger_command.record.domain.model.accounting.tables.pojos.Ledgers;
+import com.thee5176.ledger_command.record.domain.model.Tables;
+import com.thee5176.ledger_command.record.domain.model.tables.pojos.Ledgers;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,8 +38,8 @@ public class LedgerRepository {
                 .where(Tables.LEDGERS.ID.eq(Ledgers.getId()))
                     .execute();
         } catch (Exception e) {
-            log.error("Error deleting ledger", e);
-            throw new JooqOperationException("Failed to delete Ledger");
+            log.error("Error updating ledger", e);
+            throw new JooqOperationException("Failed to update Ledger");
         }
     }
     
@@ -55,7 +55,7 @@ public class LedgerRepository {
         }
     }
 
-    public boolean existsByIdAndOwnerId(UUID uuid, Long ownerId) {
+    public boolean existsByIdAndOwnerId(UUID uuid, String ownerId) {
         Integer count = dslContext.selectCount()
             .from(Tables.LEDGERS)
             .where(Tables.LEDGERS.ID.eq(uuid).and(Tables.LEDGERS.OWNER_ID.eq(ownerId)))

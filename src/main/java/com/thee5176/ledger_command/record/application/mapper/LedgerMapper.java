@@ -3,7 +3,7 @@ package com.thee5176.ledger_command.record.application.mapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import com.thee5176.ledger_command.record.application.dto.LedgersEntryDTO;
-import com.thee5176.ledger_command.record.domain.model.accounting.tables.pojos.Ledgers;
+import com.thee5176.ledger_command.record.domain.model.tables.pojos.Ledgers;
 
 @Service
 public class LedgerMapper {

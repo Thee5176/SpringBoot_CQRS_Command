@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.thee5176.ledger_command</groupId>
 	<artifactId>ledger_command</artifactId>
-	<version>1.1.0-SNAPSHOT</version>
+	<version>1.2.0-SNAPSHOT</version>
 	<name>ledger_command</name>
 	<description>CQRS command service for Double Accounting System</description>
 	<url/>
@@ -85,10 +85,20 @@
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.modelmapper/modelmapper -->
 		<dependency>
-				<groupId>org.modelmapper</groupId>
-				<artifactId>modelmapper</artifactId>
-				<version>3.2.0</version>
-			</dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>3.2.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.okta.spring/okta-spring-boot-starter -->
+		<dependency>
+			<groupId>com.okta.spring</groupId>
+			<artifactId>okta-spring-boot-starter</artifactId>
+			<version>3.0.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
@@ -167,6 +177,7 @@
 							<locations>
 								<location>filesystem:src/main/resources/db/migration</location>
 							</locations>
+							<cleanDisabled>true</cleanDisabled> 
 						</configuration>
 						<executions>
 							<execution>

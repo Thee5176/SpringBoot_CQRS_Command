@@ -1,10 +1,9 @@
 INSERT INTO accounting.code_of_account ("code", "title", "level", "element", "type") VALUES
 
 -- 純資産 (Equity)
+(3110, '繰越利益剰余金', 0, 'Equity', 'Credit'),
 (3111, '利益剰余金', 0, 'Equity', 'Credit'),
 (3112, '当期純利益', 0, 'Equity', 'Credit'),
-(3113, '当期純損失', 0, 'Equity', 'Debit'),
-(3114, '繰越利益剰余金', 0, 'Equity', 'Credit'),
 
 -- その他 (Other)
 -- 税金・保険 (Taxes & Social Insurance)
@@ -24,8 +23,8 @@ INSERT INTO accounting.code_of_account ("code", "title", "level", "element", "ty
 (2301, '仮受消費税', 0, 'Liabilities', 'Credit'),
 
 -- 源泉税・住民税（預り金）
-(213201, '源泉所得税預り金', 0, 'Liabilities', 'Credit'),
-(213202, '住民税預り金（従業員）', 0, 'Liabilities', 'Credit'),
+(2135, '源泉所得税預り金', 0, 'Liabilities', 'Credit'),
+(2136, '住民税預り金（従業員）', 0, 'Liabilities', 'Credit'),
 
 -- 個人向け税（必要に応じて使用）
 (6221, '所得税（源泉分）', 0, 'Other', 'Debit'),

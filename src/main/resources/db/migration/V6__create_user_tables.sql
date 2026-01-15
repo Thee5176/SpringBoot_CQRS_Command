@@ -4,14 +4,15 @@ CREATE TABLE credential.users (
     "id" bigint PRIMARY KEY NOT NULL,
     "username" VARCHAR(50) NOT NULL UNIQUE,
     "password" VARCHAR(255) NOT NULL,
+    "email" VARCHAR(255) NOT NULL,
+    
     "is_enabled" BOOLEAN,
     "is_account_non_expired" BOOLEAN,
     "is_credentials_non_expired" BOOLEAN,
     "is_account_non_locked" BOOLEAN,
 
     "firstname" VARCHAR(255) NOT NULL,
-    "lastname" VARCHAR(255) NOT NULL,
-    "email" VARCHAR(255) NOT NULL
+    "lastname" VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE credential.authorities (

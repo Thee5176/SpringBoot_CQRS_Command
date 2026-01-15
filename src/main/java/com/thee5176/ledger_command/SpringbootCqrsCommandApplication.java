@@ -9,5 +9,4 @@ public class SpringbootCqrsCommandApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SpringbootCqrsCommandApplication.class, args);
 	}
-
 }

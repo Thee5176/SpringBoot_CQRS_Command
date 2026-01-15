@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import com.thee5176.ledger_command.record.application.dto.LedgersEntryDTO;
 import com.thee5176.ledger_command.record.application.dto.LedgersEntryDTOTest;
-import com.thee5176.ledger_command.record.domain.model.accounting.tables.pojos.Ledgers;
+import com.thee5176.ledger_command.record.domain.model.tables.pojos.Ledgers;
 
 class LedgerMapperTest {
 

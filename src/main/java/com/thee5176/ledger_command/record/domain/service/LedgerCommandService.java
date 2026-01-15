@@ -11,11 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.thee5176.ledger_command.record.application.dto.LedgersEntryDTO;
 import com.thee5176.ledger_command.record.application.mapper.LedgerItemsMapper;
 import com.thee5176.ledger_command.record.application.mapper.LedgerMapper;
-import com.thee5176.ledger_command.record.domain.model.accounting.tables.pojos.LedgerItems;
-import com.thee5176.ledger_command.record.domain.model.accounting.tables.pojos.Ledgers;
+import com.thee5176.ledger_command.record.domain.model.tables.pojos.LedgerItems;
+import com.thee5176.ledger_command.record.domain.model.tables.pojos.Ledgers;
 import com.thee5176.ledger_command.record.infrastructure.repository.LedgerItemsRepository;
 import com.thee5176.ledger_command.record.infrastructure.repository.LedgerRepository;
-import com.thee5176.ledger_command.security.JOOQUsersRepository;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,19 +31,15 @@ public class LedgerCommandService {
 
     private final LedgerItemsMapper ledgerItemsMapper;
 
-    private final JOOQUsersRepository userRepository;
 
     @Transactional
-    public void createLedger(LedgersEntryDTO ledgersEntryDTO, @NotNull String username) {
+    public void createLedger(LedgersEntryDTO ledgersEntryDTO, @NotNull String userId) {
         final UUID ledgerUuid = UUID.randomUUID();
         
-        Long ownerId = userRepository.fetchUserByUsername(username).getId();
-        log.info("Create Ledger owner ID: {}", ownerId);
-
         // 取引作成stream
         Ledgers ledger = ledgerMapper.map(ledgersEntryDTO)
                                         .setId(ledgerUuid)
-                                        .setOwnerId(ownerId);
+                                        .setOwnerId(userId);
 
         ledgerRepository.createLedger(ledger);
         log.debug("Ledger created: {}", ledger);
@@ -62,11 +57,10 @@ public class LedgerCommandService {
     }
 
     @Transactional
-    public void updateLedger(LedgersEntryDTO ledgersEntryDTO, @NotNull String username) {
+    public void updateLedger(LedgersEntryDTO ledgersEntryDTO, @NotNull String ownerId) {
         // check if owner owned the transaction
-        Long ownerId = userRepository.fetchUserByUsername(username).getId();
         if (!ledgerRepository.existsByIdAndOwnerId(ledgersEntryDTO.getId(), ownerId)) {
-            log.warn("User {} attempted to update ledger {} they do not own", username, ledgersEntryDTO.getId());
+            log.warn("User {} attempted to update ledger {} they do not own", ownerId, ledgersEntryDTO.getId());
             throw new AccessDeniedException("You do not have permission to update this ledger.");
         }
         
@@ -112,16 +106,15 @@ public class LedgerCommandService {
     }
 
     @Transactional
-    public void deleteLedger(UUID uuid, @NotNull String username) {
+    public void deleteLedger(UUID uuid, @NotNull String ownerId) {
         // check if owner owned the transaction
-        Long ownerId = userRepository.fetchUserByUsername(username).getId();
         if (!ledgerRepository.existsByIdAndOwnerId(uuid, ownerId)) {
-            log.warn("User {} attempted to delete ledger {} they do not own", username, uuid);
+            log.warn("User {} attempted to delete ledger {} they do not own", ownerId, uuid);
             throw new AccessDeniedException("You do not have permission to delete this ledger.");
         }
 
         // cascade delete apply in DB layer
         ledgerRepository.deleteLedger(uuid);
-        log.info("User {} deleted Ledger {}", username, uuid);
+        log.info("User {} deleted Ledger {}", ownerId, uuid);
     }
 }

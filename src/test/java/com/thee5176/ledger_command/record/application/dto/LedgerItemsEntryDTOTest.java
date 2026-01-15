@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.util.List;
 import org.junit.jupiter.api.Test;
-import com.thee5176.ledger_command.record.domain.model.accounting.enums.BalanceType;
+import com.thee5176.ledger_command.record.domain.model.enums.BalanceType;
 
 public class LedgerItemsEntryDTOTest {
 
