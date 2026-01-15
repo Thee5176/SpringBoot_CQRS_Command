@@ -8,12 +8,12 @@ spring:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     hikari:
-      minimum-idle: 0
+      minimum-idle: 2
       maximum-pool-size: 20
       connection-timeout: 30000
       idle-timeout: 300000
       max-lifetime: 1800000
-      leak-detection-threshold: 2000
+      leak-detection-threshold: 60000
   flyway:
     enabled: true
     baseline-version: 1
@@ -23,6 +23,10 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: https://${AUTH0_DOMAIN}/
+          audiences:
+          - https://choudai-matketplace.jp.auth0.com/api/v2/
+          - https://choudai-matketplace.jp.auth0.com/userinfo
+
   profiles:
     active: [dev, prod]
 
@@ -31,7 +35,6 @@ okta:
     issuer: https://${AUTH0_DOMAIN}/
     client-id: ${AUTH0_CLIENT_ID}
     client-secret: ${AUTH0_CLIENT_SECRET}
-    audience: ${AUTH0_AUDIENCE}
 
 
 logging:

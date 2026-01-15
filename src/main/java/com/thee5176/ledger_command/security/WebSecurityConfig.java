@@ -14,12 +14,10 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtDecoders;
 import org.springframework.security.oauth2.jwt.JwtValidators;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.util.UriComponentsBuilder;
 import lombok.RequiredArgsConstructor;
 @Configuration
 @EnableWebSecurity
@@ -27,11 +25,12 @@ import lombok.RequiredArgsConstructor;
 public class WebSecurityConfig {
 
 	@Value("${okta.oauth2.issuer}")
-    private String issuer;
+    private String issuerUri;
     @Value("${okta.oauth2.client-id}")
     private String clientId;
-    @Value("${okta.oauth2.audience}")
-    private String audience;
+
+    private final JwtProperties jwtProperties;
+
 
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
@@ -44,47 +43,29 @@ public class WebSecurityConfig {
     
         http.oauth2Login(withDefaults());
 
-        http.oauth2ResourceServer(oauth2 -> oauth2
-            .jwt(jwt -> jwt
-                .decoder(jwtDecoder())
-            )
-
-            );
+        http.oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults()));
 
         return http.build();
     }
-    
+
     @Bean
     public JwtDecoder jwtDecoder() {
-        NimbusJwtDecoder jwtDecoder = JwtDecoders.fromIssuerLocation(issuer);
-        
-        OAuth2TokenValidator<Jwt> audienceValidator = new AudienceValidator(audience);
-        OAuth2TokenValidator<Jwt> withIssuer = JwtValidators.createDefaultWithIssuer(issuer);
+        NimbusJwtDecoder jwtDecoder = (NimbusJwtDecoder) JwtDecoders.fromIssuerLocation(jwtProperties.getIssuerUri());
+
+        OAuth2TokenValidator<Jwt> audienceValidator = new AudienceValidator(jwtProperties.getAudiences());
+        OAuth2TokenValidator<Jwt> withIssuer = JwtValidators.createDefaultWithIssuer(jwtProperties.getIssuerUri());
         OAuth2TokenValidator<Jwt> withAudience = new DelegatingOAuth2TokenValidator<>(withIssuer, audienceValidator);
 
         jwtDecoder.setJwtValidator(withAudience);
-        
+
         return jwtDecoder;
     }
 
     private LogoutHandler oidclogoutHandler() {
         return (request, response, authentication) -> {
             try {
-                String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .build()
-                    .toUriString();
-
-                String issuerBase = issuer.endsWith("/") ? issuer : issuer + "/";
-
-                String logoutUrl = UriComponentsBuilder
-                    .fromHttpUrl(issuerBase)
-                    .path("v2/logout")
-                    .queryParam("client_id", clientId)
-                    .queryParam("returnTo", baseUrl)
-                    .build()
-                    .toUriString();
-
-                response.sendRedirect(logoutUrl);
+                String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+                response.sendRedirect(issuerUri + "v2/logout?client_id=" + clientId + "&returnTo=" + baseUrl);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
