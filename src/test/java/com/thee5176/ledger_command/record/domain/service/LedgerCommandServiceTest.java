@@ -13,10 +13,10 @@ import com.thee5176.ledger_command.record.application.dto.LedgersEntryDTO;
 import com.thee5176.ledger_command.record.application.dto.LedgersEntryDTOTest;
 import com.thee5176.ledger_command.record.application.mapper.LedgerItemsMapper;
 import com.thee5176.ledger_command.record.application.mapper.LedgerMapper;
-import com.thee5176.ledger_command.record.domain.model.accounting.tables.pojos.LedgerItems;
 import com.thee5176.ledger_command.record.domain.model.accounting.tables.pojos.LedgerItemsTest;
-import com.thee5176.ledger_command.record.domain.model.accounting.tables.pojos.Ledgers;
 import com.thee5176.ledger_command.record.domain.model.accounting.tables.pojos.LedgersTest;
+import com.thee5176.ledger_command.record.domain.model.tables.pojos.LedgerItems;
+import com.thee5176.ledger_command.record.domain.model.tables.pojos.Ledgers;
 import com.thee5176.ledger_command.record.infrastructure.repository.LedgerItemsRepository;
 import com.thee5176.ledger_command.record.infrastructure.repository.LedgerRepository;
 

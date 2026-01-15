@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.thee5176.ledger_command.record.domain.model.accounting.tables.pojos.LedgerItems;
+import com.thee5176.ledger_command.record.domain.model.tables.pojos.LedgerItems;
 import com.thee5176.ledger_command.record.infrastructure.repository.LedgerItemsRepository;
 import lombok.AllArgsConstructor;
 

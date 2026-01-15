@@ -4,7 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
-import com.thee5176.ledger_command.record.domain.model.accounting.enums.BalanceType;
+import com.thee5176.ledger_command.record.domain.model.enums.BalanceType;
+import com.thee5176.ledger_command.record.domain.model.tables.pojos.LedgerItems;
 
 public class LedgerItemsTest {
 

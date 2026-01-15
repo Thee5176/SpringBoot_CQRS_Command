@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
+import com.thee5176.ledger_command.record.domain.model.tables.pojos.Ledgers;
 
 public class LedgersTest {
 
@@ -19,6 +20,7 @@ public class LedgersTest {
         assertNull(transactions.getDescription());
         assertNull(transactions.getCreatedAt());
         assertNull(transactions.getUpdatedAt());
+        assertNull(transactions.getOwnerId());
     }
 
     @Test
