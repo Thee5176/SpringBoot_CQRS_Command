@@ -4,9 +4,6 @@
 package com.thee5176.ledger_command.record.domain.model;
 
 
-import com.thee5176.ledger_command.record.domain.model.accounting.Accounting;
-import com.thee5176.ledger_command.record.domain.model.credential.Credential;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,11 +31,6 @@ public class DefaultCatalog extends CatalogImpl {
     public final Accounting ACCOUNTING = Accounting.ACCOUNTING;
 
     /**
-     * The schema <code>credential</code>.
-     */
-    public final Credential CREDENTIAL = Credential.CREDENTIAL;
-
-    /**
      * No further instances allowed
      */
     private DefaultCatalog() {
@@ -48,8 +40,7 @@ public class DefaultCatalog extends CatalogImpl {
     @Override
     public final List<Schema> getSchemas() {
         return Arrays.asList(
-            Accounting.ACCOUNTING,
-            Credential.CREDENTIAL
+            Accounting.ACCOUNTING
         );
     }
 
