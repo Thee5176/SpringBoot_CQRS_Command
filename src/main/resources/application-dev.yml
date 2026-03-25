@@ -8,6 +8,7 @@ logging:
     org:
       springframework:
         security: DEBUG
+        transaction: DEBUG
     com:
       thee5176:
         ledger_command:
