@@ -1,0 +1,75 @@
+<configuration>
+
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <!-- ─── 1. Log file appender ─────────────────────────────── -->
+  <appender name="LOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>logs/app.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+      <fileNamePattern>logs/app-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+      <maxFileSize>10MB</maxFileSize>
+      <maxHistory>30</maxHistory>
+      <totalSizeCap>100MB</totalSizeCap>
+    </rollingPolicy>
+    <encoder>
+      <pattern>%d %-5level %logger - %msg%nopex%n</pattern>
+    </encoder>
+  </appender>
+
+  <!-- ─── 2. Stack trace file appender ──────────────────────── -->
+  <appender name="ERR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>logs/app-errors.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+      <fileNamePattern>logs/app-errors-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+      <maxFileSize>10MB</maxFileSize>
+      <maxHistory>30</maxHistory>
+      <totalSizeCap>100MB</totalSizeCap>
+    </rollingPolicy>
+    <encoder>
+      <pattern>%d %-5level %logger - %msg %ex%n</pattern>
+    </encoder>
+  </appender>
+
+  <!-- ─── 3. OpenTelemetry appender (forwards via OTLP) ─────── -->
+  <appender name="OTEL"
+    class="io.opentelemetry.instrumentation.logback.appender.v1_0.OpenTelemetryAppender">
+
+    <!-- Capture thread.name and thread.id as OTel attributes -->
+    <captureExperimentalAttributes>true</captureExperimentalAttributes>
+
+    <!-- Capture class name, method name, and line number -->
+    <captureCodeAttributes>true</captureCodeAttributes>
+
+    <!-- Capture all MDC keys (e.g., trace_id, span_id if set manually) -->
+    <captureMdcAttributes>*</captureMdcAttributes>
+
+    <!-- Capture exception fields as OTel attributes: exception.type, exception.message, exception.stacktrace -->
+    <captureMarkerAttribute>true</captureMarkerAttribute>
+  </appender>
+
+  <!-- ─── Named loggers ────────────────────────────────────────── -->
+
+  <!-- Normal messages only → LOG_FILE + forwarded via OTel -->
+  <logger name="app.message" level="INFO" additivity="false">
+    <appender-ref ref="LOG_FILE"/>
+    <appender-ref ref="OTEL"/>
+  </logger>
+
+  <!-- Errors with stack traces → ERR_FILE + forwarded via OTel -->
+  <logger name="app.stacktrace" level="ERROR" additivity="false">
+    <appender-ref ref="ERR_FILE"/>
+    <appender-ref ref="OTEL"/>
+  </logger>
+
+  <!-- Root: all other logs → LOG_FILE + OTel -->
+  <root level="INFO">
+    <appender-ref ref="CONSOLE"/>
+    <appender-ref ref="LOG_FILE"/>
+    <appender-ref ref="OTEL"/>
+  </root>
+
+</configuration>
